@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="card_view" type="id" />
+    <item name="relativeLayout" type="id" />
+    <item name="item_image" type="id" />
+    <item name="item_temp" type="id" />
+    <item name="item_title" type="id" />
+    <item name="item_detail" type="id" />
+    <item name="labelTemperature" type="id" />
+    <item name="editTemperature" type="id" />
+    <item name="editHumidity" type="id" />
+    <item name="barrier2" type="id" />
+    <item name="iconeWeather" type="id" />
+</resources>
