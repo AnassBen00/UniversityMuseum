@@ -10,6 +10,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import fr.uavignon.cerimuseum.data.Category;
 import fr.uavignon.cerimuseum.data.Object;
 
 @Dao
@@ -17,11 +18,17 @@ public interface MuseumDAO {
     @Insert
     long insert(Object object);
 
+    @Insert
+    long insertCat(Category category);
+
     @Query("DELETE FROM museum_table")
     void deleteAll();
 
     @Query("SELECT * from museum_table ORDER BY name ASC")
     LiveData<List<fr.uavignon.cerimuseum.data.Object>> getAllObjects();
+
+    @Query("SELECT * from Category_table ORDER BY name ASC")
+    LiveData<List<fr.uavignon.cerimuseum.data.Category>> getAllCategories();
 
     @Query("SELECT * FROM museum_table WHERE id_num = :id")
     Object getObjectById(long id);

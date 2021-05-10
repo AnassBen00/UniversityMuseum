@@ -44,7 +44,6 @@ public class DetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-
         viewModel = new ViewModelProvider(this).get(DetailViewModel.class);
 
         // Get selected city
@@ -78,7 +77,7 @@ public class DetailFragment extends Fragment {
                         .setAction("Action", null).show();
                 viewModel.loadCity(viewModel.getObjet().getValue());
 
-                // viewModel.getWebServiceThrowable().observe(getViewLifecycleOwner(), w);
+
             }
         });
 
@@ -104,12 +103,12 @@ public class DetailFragment extends Fragment {
                         textDetails.setText(object.getTechnicalDetails());
                         textWorking.setText(object.getWorking());
 
+                        Glide.with(this)
+                                .load(Uri.parse("https://demo-lia.univ-avignon.fr/cerimuseum/items/"+object.getId()+"/thumbnail"))
+                                .into(thumbnaulView);
+
                         if (object.getPictures() != null){
                             List<String> picsArray = Arrays.asList(object.getPictures().split(","));
-
-                            Glide.with(this)
-                                    .load(Uri.parse("https://demo-lia.univ-avignon.fr/cerimuseum/items/"+object.getId()+"/images/"+picsArray.get(0)))
-                                    .into(thumbnaulView);
 
                             for (String pic : picsArray) {
 

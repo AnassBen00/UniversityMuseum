@@ -20,6 +20,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import fr.uavignon.cerimuseum.ListViewModel;
+import fr.uavignon.cerimuseum.data.Category;
 import fr.uavignon.cerimuseum.data.MuseumRepository;
 import fr.uavignon.cerimuseum.data.Object;
 import fr.uavignon.cerimuseum.data.ObjectResponse;
@@ -30,7 +31,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-@Database(entities = {Object.class}, version = 1, exportSchema = false)
+@Database(entities = {Object.class, Category.class}, version = 1, exportSchema = false)
+
 abstract
 public class MuseumRoomDatabase extends RoomDatabase {
 

@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/ListFragment">
+    app:startDestination="@+id/ListFragment">
 
     <fragment
         android:id="@+id/ListFragment"
         android:name="fr.uavignon.cerimuseum.ListFragment"
         android:label="List Fragment"
         tools:layout="@layout/fragment_list">
+
+        <action
+            android:id="@+id/action_ListFragment_to_CategoriesFragment"
+            app:destination="@+id/CategoriesFragment" />
 
         <action
             android:id="@+id/action_ListFragment_to_DetailFragment"
@@ -30,4 +34,22 @@
             android:defaultValue="0L" />
     </fragment>
 
+    <fragment
+        android:id="@+id/CategoriesFragment"
+        android:name="fr.uavignon.cerimuseum.CategoriesFragment"
+        android:label="Categories Fragment"
+        tools:layout="@layout/fragment_categories">
+
+        <action
+            android:id="@+id/action_CategoriesFragment_to_ListFragment"
+            app:destination="@id/ListFragment" />
+        <argument
+            android:name="object_id"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
 </navigation>
+
+
+
+

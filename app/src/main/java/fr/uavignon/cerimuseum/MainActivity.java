@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         museumRepository = new MuseumRepository(getApplication());
         museumRepository.loadMuseumObjectswithKeys();
         repo = new MuseumRepository(getApplication());
-        //museumRepository.loadCategories();
     }
 
     @Override
@@ -78,6 +78,11 @@ public class MainActivity extends AppCompatActivity {
             museumRepository = new MuseumRepository(getApplication());
             Objects = recyclerAdapter.getObjetList();
             museumRepository.loadAllObjects(Objects);
+            try {
+                museumRepository.loadCategories();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return true;
         }
 

@@ -7,13 +7,12 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -34,13 +33,15 @@ public class MuseumRepository {
     private LiveData<List<Object>> allObjects;
     private MutableLiveData<Object> selectedObject;
 
-    private Collection<String> categories;
-
     private MutableLiveData<Throwable> webServiceThrowable;
 
     private LiveData<List<Object>> objectsDesc;
     private LiveData<List<Object>> objectsNewest;
     private LiveData<List<Object>> objectsOldest;
+
+    private LiveData<List<Category>> cats;
+
+    public static Map<String, List<Object>> categories = new TreeMap<>();
 
     private MuseumDAO museumDAO;
 
@@ -63,6 +64,8 @@ public class MuseumRepository {
         objectsDesc = museumDAO.getAllObjectsDesc();
         objectsNewest = museumDAO.getAllObjectsNewest();
         objectsOldest = museumDAO.getAllObjectsOldest();
+
+        cats = museumDAO.getAllCategories();
 
         selectedObject = new MutableLiveData<>();
         Retrofit retrofit=
@@ -115,6 +118,23 @@ public class MuseumRepository {
         return res;
     }
 
+    public long insertCategory(Category category) {
+        Future<Long> flong = databaseWriteExecutor.submit(() -> {
+            return museumDAO.insertCat(category);
+        });
+        long res = -1;
+        try {
+            res = flong.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//        if (res != -1)
+//            selectedObject.setValue(category);
+        return res;
+    }
+
     public int updateObject(Object object) {
         Future<Integer> fint = databaseWriteExecutor.submit(() -> {
             return museumDAO.update(object);
@@ -146,9 +166,8 @@ public class MuseumRepository {
         }
     }
 
-    public Collection<String> getAllCategories(Collection<String> ctgs){
-        categories = ctgs;
-        return categories;
+    public LiveData<List<Category>> getAllCategories(){
+        return cats;
     }
 
     public void loadMuseumObjectswithKeys(){
@@ -201,20 +220,20 @@ public class MuseumRepository {
         }
     }
 
-    public void loadCategories(){
-        System.out.println(api.getForecast3("categories").request());
-        api.getForecast3("categories").enqueue(
-                new Callback<Map<Integer, String>>() {
+    public void loadCategories() throws IOException {
+        api.getForecast3().enqueue(
+                new Callback<List<String>>() {
                     @Override
-                    public void onResponse(Call<Map<Integer, String>> call, Response<Map<Integer, String>> response) {
-                        System.out.println(response);
-                        System.err.println(response.body().values().toString());
-                        getAllCategories(response.body().values());
+                    public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                        for (String categoryName:response.body()) {
+                            insertCategory(new Category(categoryName));
+                        }
+                        //setCats(response.body());
                         Log.d(TAG,"result ="+response.body());
-
                     }
+
                     @Override
-                    public void onFailure(Call<Map<Integer, String>> call, Throwable t) {
+                    public void onFailure(Call<List<String>> call, Throwable t) {
                         //webServiceThrowable.postValue(t);
                         System.out.println("failure");
                     }

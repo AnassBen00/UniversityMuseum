@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -37,10 +38,24 @@ public class RecyclerAdapter extends RecyclerView.Adapter<fr.uavignon.cerimuseum
     private ListViewModel listViewModel;
 
     @Override
+    public int getItemViewType(int position) {
+        // Just as an example, return 0 or 2 depending on position
+        // Note that unlike in ListView adapters, types don't have to be contiguous
+        return position;
+    }
+
+    @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext())
+        View v1 = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.card_layout, viewGroup, false);
-        return new ViewHolder(v);
+        View v2 = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.card_layout2, viewGroup, false);
+       if ((i%2)  != 0){
+           return new ViewHolder(v1);
+       }
+       else{
+           return new ViewHolder(v2);
+       }
     }
 
     @SuppressLint("SetTextI18n")
@@ -56,12 +71,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<fr.uavignon.cerimuseum
             viewHolder.itemYear.setText("Not Provided");
         }
 
-        if (objetList.get(i).getPictures() != null){
-            List<String> picsArray = Arrays.asList(objetList.get(i).getPictures().split(","));
-            Glide.with(viewHolder.itemView)
-                    .load(Uri.parse("https://demo-lia.univ-avignon.fr/cerimuseum/items/"+objetList.get(i).getId()+"/images/"+picsArray.get(0)))
-                    .into(viewHolder.itemImage);
-        }
+        Glide.with(viewHolder.itemView)
+                .load(Uri.parse("https://demo-lia.univ-avignon.fr/cerimuseum/items/"+objetList.get(i).getId()+"/thumbnail"))
+                .into(viewHolder.itemImage);
     }
 
     @Override
@@ -73,7 +85,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<fr.uavignon.cerimuseum
         objetList = objets;
         notifyDataSetChanged();
     }
-
 
     public void filterList(String text) {
         List<Object> search = new ArrayList<>();
@@ -176,6 +187,40 @@ public class RecyclerAdapter extends RecyclerView.Adapter<fr.uavignon.cerimuseum
                     return true;
                 }
             });
+        }
+    }
+
+    static class CustomItemHolder extends RecyclerView.ViewHolder {
+
+        LinearLayout container;
+        ImageView thumbnail;
+        TextView name;
+        TextView brand;
+        TextView timeFrame;
+        TextView categories;
+
+
+        CustomItemHolder(View itemView) {
+            super(itemView);
+
+            container = itemView.findViewById(R.id.container);
+            thumbnail = itemView.findViewById(R.id.objectImage);
+            name = itemView.findViewById(R.id.objectName);
+            brand = itemView.findViewById(R.id.objectBrand);
+            timeFrame = itemView.findViewById(R.id.timeFrame);
+            categories = itemView.findViewById(R.id.objectCategories);
+        }
+    }
+
+
+    static class CustomHeaderHolder extends RecyclerView.ViewHolder {
+
+        TextView tvTitle;
+
+        CustomHeaderHolder(@NonNull View itemView) {
+            super(itemView);
+
+            tvTitle = itemView.findViewById(R.id.sectionName);
         }
     }
 }

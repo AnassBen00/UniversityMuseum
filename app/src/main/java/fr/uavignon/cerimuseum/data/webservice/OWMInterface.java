@@ -20,8 +20,8 @@ public interface OWMInterface {
     @GET("cerimuseum/{p}/{i}")
     Call<ObjectResponse> getForecast2(@Path("p") String p, @Path("i") String i);
 
-    @GET("cerimuseum/{p}")
-    Call<Map<Integer, String>> getForecast3(@Path("p") String p);
+    @GET("cerimuseum/categories")
+    Call<List<String>> getForecast3();
 
 
 }
