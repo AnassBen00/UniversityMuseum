@@ -43,13 +43,14 @@ class Category extends Section {
     @Override
     public RecyclerAdapter.CustomItemHolder getItemViewHolder(View view) {
         // return a custom instance of ViewHolder for the items of this section
+        System.out.println("*******IN CATEGORY FRAGMENT1******");
         return new RecyclerAdapter.CustomItemHolder(view);
     }
 
     @Override
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
         RecyclerAdapter.CustomItemHolder itemHolder = (RecyclerAdapter.CustomItemHolder) holder;
-
+        System.out.println("*******IN CATEGORY FRAGMENT2******");
         // bind your view here
         Object museumObject = objects.get(position);
 
@@ -102,13 +103,14 @@ class Category extends Section {
     @Override
     public RecyclerView.ViewHolder getHeaderViewHolder(View view) {
         // return an empty instance of ViewHolder for the headers of this section
+        System.out.println("*******IN CATEGORY FRAGMENT3******");
         return new RecyclerAdapter.CustomHeaderHolder(view);
     }
 
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder) {
         RecyclerAdapter.CustomHeaderHolder headerHolder = (RecyclerAdapter.CustomHeaderHolder) holder;
-
+        System.out.println("*******IN CATEGORY FRAGMENT4******");
         // bind your header view here
         headerHolder.tvTitle.setText(title);
     }

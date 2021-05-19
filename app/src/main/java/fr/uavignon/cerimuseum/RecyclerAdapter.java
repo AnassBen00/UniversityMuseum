@@ -37,6 +37,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<fr.uavignon.cerimuseum
     private List<Object> objetList;
     private ListViewModel listViewModel;
 
+
+
     @Override
     public int getItemViewType(int position) {
         // Just as an example, return 0 or 2 depending on position

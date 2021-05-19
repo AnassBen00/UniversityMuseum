@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private ListViewModel viewModel;
     MuseumRepository museumRepository;
     RecyclerAdapter recyclerAdapter;
-    MuseumRepository repo;
     private List<Object> Objects;
 
 
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         museumRepository = new MuseumRepository(getApplication());
         museumRepository.loadMuseumObjectswithKeys();
-        repo = new MuseumRepository(getApplication());
+
     }
 
     @Override

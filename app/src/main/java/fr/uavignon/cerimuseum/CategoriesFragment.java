@@ -40,7 +40,7 @@ public class CategoriesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_categories, container, false);
 
         recyclerView = view.findViewById(R.id.categoriesRecyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
         sectionAdapter = new SectionedRecyclerViewAdapter();
@@ -61,8 +61,6 @@ public class CategoriesFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        sectionAdapter = new SectionedRecyclerViewAdapter();
-
         super.onCreate(savedInstanceState);
     }
 
@@ -95,7 +93,6 @@ public class CategoriesFragment extends Fragment {
                             }
                         }
                         for(Map.Entry<String, List<Object>> entry : objts.entrySet()) {
-                            System.out.println();
                             sectionAdapter.addSection(new Category(getContext(), entry.getKey(), entry.getValue()));
                         }
                     }
